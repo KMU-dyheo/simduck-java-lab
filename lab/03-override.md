@@ -22,6 +22,10 @@ git switch -c work/strategy-01-03-override
 5. `DuckFactory`에서 DecoyDuck을 선택할 수 있게 한다.
 6. 실행해서 RubberDuck과 DecoyDuck이 더 이상 날지 않는지 확인한다.
 
+## 수정 영역
+
+이번 단계에서는 `duck/` 코드만 수정한다. `simulator/`, `resources/assets/`는 수정하지 않는다.
+
 ## 완료 조건
 
 - RubberDuck은 `fly()`를 직접 재정의한다.

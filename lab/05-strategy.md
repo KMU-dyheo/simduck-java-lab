@@ -25,6 +25,12 @@ git switch -c work/strategy-01-05-strategy
 8. 이전 단계의 `Flyable`, `Quackable`은 제거한다.
 9. 스윙 화면에서 오리를 바꿀 때 `FlyWithWings`, `FlyNoWay` 등이 다르게 표시되고 행동도 달라지는지 확인한다.
 
+## 수정 영역
+
+`duck/`, `behavior/`만 수정한다. `simulator/`, `resources/assets/`는 수정하지 않는다.
+
+학생이 만든 새로운 Duck도 public 기본 생성자를 가지면 Swing 시뮬레이터가 자동으로 발견한다. 새로운 Duck 전용 이미지는 만들지 않으며 기본 Mallard 외형으로 표시된다.
+
 ## 완료 조건
 
 - MallardDuck과 RedheadDuck은 `FlyWithWings`, `Quack`을 재사용한다.
