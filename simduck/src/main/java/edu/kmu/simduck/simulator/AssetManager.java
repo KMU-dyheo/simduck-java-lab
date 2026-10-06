@@ -294,7 +294,8 @@ public final class AssetManager {
             StringBuilder encoded = new StringBuilder();
             String[] resourcePaths = {
                     "/assets/assets-atlas.part01.b64",
-                    "/assets/assets-atlas.part02.b64",
+                    "/assets/assets-atlas.part02a.b64",
+                    "/assets/assets-atlas.part02b.b64",
                     "/assets/assets-atlas.part03.b64",
                     "/assets/assets-atlas.part04a.b64",
                     "/assets/assets-atlas.part04b.b64",
