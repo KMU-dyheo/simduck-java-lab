@@ -30,10 +30,10 @@ git switch -c work/strategy-01-03-override
 - 대신 행동을 취소하기 위한 빈 메서드가 여러 클래스에 생긴다.
 - `./verify.sh`가 통과한다.
 
-## 정답 비교
+## 참고 구현과 비교
 
 ```bash
-git diff checkpoint/strategy-01-03-override
+git diff reference/strategy-01-03-override
 ```
 
 ## 다음 질문
