@@ -177,25 +177,31 @@ factory-pizza
 
 ## 전략 패턴 1 단계별 브랜치
 
-전략 패턴 1은 **미션 브랜치에서 시작하고 체크포인트 브랜치에서 정답을 확인하는 방식**으로 진행한다.
+전략 패턴 1은 **미션 브랜치에서 시작하고 reference 브랜치의 참고 구현과 비교하는 방식**으로 진행한다.
 
-| 단계 | 학생 시작 브랜치 | 정답 브랜치 |
+| 단계 | 학생 시작 브랜치 | 참고 구현 브랜치 |
 |---|---|---|
 | 시작 | `lab/strategy-01-start` | 동일 |
-| 1단계 | `mission/strategy-01-01-fly` | `checkpoint/strategy-01-01-fly` |
-| 2단계 | `mission/strategy-01-02-rubber` | `checkpoint/strategy-01-02-rubber` |
-| 3단계 | `mission/strategy-01-03-override` | `checkpoint/strategy-01-03-override` |
-| 4단계 | `mission/strategy-01-04-interface` | `checkpoint/strategy-01-04-interface` |
-| 5단계 | `mission/strategy-01-05-strategy` | `checkpoint/strategy-01-05-strategy` |
+| 1단계 | `mission/strategy-01-01-fly` | `reference/strategy-01-01-fly` |
+| 2단계 | `mission/strategy-01-02-rubber` | `reference/strategy-01-02-rubber` |
+| 3단계 | `mission/strategy-01-03-override` | `reference/strategy-01-03-override` |
+| 4단계 | `mission/strategy-01-04-interface` | `reference/strategy-01-04-interface` |
+| 5단계 | `mission/strategy-01-05-strategy` | `reference/strategy-01-05-strategy` |
 
 `mission/*` 브랜치는 의도적으로 미완성이다. 처음 GitHub Actions가 실패하는 것이 정상이며, 학생은 이 브랜치에서 개인 작업 브랜치를 만든다.
+
+### 왜 `reference/*`인가?
+
+이 브랜치는 학생 코드의 **유일한 정답(solution)** 을 뜻하지 않는다. 디자인 문제에는 같은 원칙을 만족하는 여러 구현이 가능하다. 따라서 수업에서 제시하는 한 가지 **기준 구현(reference implementation)** 과 비교한다는 의미로 `reference/*`를 사용한다.
+
+기존 `checkpoint/*`라는 이름은 단순히 "진행 중 특정 시점"이라는 의미가 강해서 교수자가 제공하는 비교용 구현이라는 역할이 명확하지 않았다. 앞으로 문서와 GitHub Actions에서는 `reference/*`만 사용한다.
 
 ```bash
 git switch mission/strategy-01-02-rubber
 git switch -c work/strategy-01-02-rubber
 ```
 
-코드를 수정하면서 `./verify.sh`를 반복 실행하고, 검증이 통과한 뒤에만 해당 `checkpoint/*` 브랜치와 비교한다.
+코드를 수정하면서 `./verify.sh`를 반복 실행하고, 검증이 통과한 뒤에만 해당 `reference/*` 브랜치의 참고 구현과 비교한다.
 
 전체 단계와 미션 설명은 `Lab.md`, 세부 미션은 `lab/NN-*.md`에 있다.
 

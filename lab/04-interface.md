@@ -30,10 +30,10 @@ git switch -c work/strategy-01-04-interface
 - MallardDuck과 RedheadDuck에는 같은 행동 코드가 반복된다.
 - `./verify.sh`가 통과한다.
 
-## 정답 비교
+## 참고 구현과 비교
 
 ```bash
-git diff checkpoint/strategy-01-04-interface
+git diff reference/strategy-01-04-interface
 ```
 
 ## 다음 질문
