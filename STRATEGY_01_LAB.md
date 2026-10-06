@@ -2,41 +2,31 @@
 
 ## 현재 단계
 
-**3단계 - 맞지 않는 행동을 재정의**
+**4단계 - Flyable과 Quackable 분리**
 
-고무 오리가 날아가는 문제를 가장 직접적으로 고쳤다.
-
-```java
-@Override
-public void fly() {
-    // 고무 오리는 날지 않는다.
-}
-```
-
-DecoyDuck도 같은 문제가 있다.
+상속받은 행동을 취소하는 대신 필요한 기능만 선택하도록 바꿨다.
 
 ```text
-RubberDuck
- └─ fly() 재정의
-
-DecoyDuck
- ├─ fly() 재정의
- └─ quack() 재정의
+MallardDuck  ── implements Flyable, Quackable
+RedheadDuck  ── implements Flyable, Quackable
+RubberDuck   ── implements Quackable
+DecoyDuck    ── 기능 인터페이스 없음
 ```
 
 ## 확인할 것
 
-1. RubberDuck을 선택하고 날기를 누른다.
-2. 화면의 비행 구조가 `fly() 재정의`로 표시되는지 확인한다.
-3. DecoyDuck을 선택한다.
-4. 날기와 울기를 눌러 아무 행동도 하지 않는 것을 확인한다.
+1. MallardDuck을 선택하고 날기와 울기를 실행한다.
+2. 화면에 비행 구조가 `Flyable 구현`으로 표시되는지 확인한다.
+3. RubberDuck을 선택하고 날기를 실행한다.
+4. RubberDuck에는 비행 메서드 자체가 없다는 것을 확인한다.
+5. MallardDuck.java와 RedheadDuck.java의 `fly()`, `quack()` 코드를 비교한다.
 
 ## 핵심 문제
 
-현재 오리에 맞지 않는 상속 행동을 하위 클래스가 계속 취소하고 있다.
+기능 선택은 명확해졌지만 **행동 구현을 재사용할 수 없다.**
 
-오리 종류가 많아질수록 어느 클래스가 어떤 행동을 재정의해야 하는지 계속 관리해야 한다.
+같은 비행 코드를 여러 오리 클래스에 복사하면 행동을 수정할 때 여러 클래스를 함께 고쳐야 한다.
 
 ## 다음 시도
 
-비행 가능한 오리만 `Flyable`, 울 수 있는 오리만 `Quackable`을 구현하도록 바꾼다.
+변하는 행동을 `FlyBehavior`, `QuackBehavior` 객체로 분리하고 Duck이 그 객체에 행동을 위임하도록 바꾼다.
