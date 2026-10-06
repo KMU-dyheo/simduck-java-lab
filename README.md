@@ -200,6 +200,25 @@ git switch lab/strategy-01-start
 git switch checkpoint/strategy-01-02-rubber
 ```
 
-각 실습 브랜치에는 현재 단계의 목적과 다음 문제를 설명하는 `STRATEGY_01_LAB.md`가 들어 있다.
+각 실습 브랜치에는 현재 단계의 목적과 다음 문제를 설명하는 `Lab.md`가 들어 있다.
 
 `main` 브랜치는 전략 패턴 2에서 사용할 실행 중 행동 교체와 `FlyRocketPowered`까지 포함한 완성 상태를 유지한다.
+
+
+## 자동 실습 검증
+
+단계별 미션과 검증 방법은 `Lab.md`에서 확인한다.
+
+현재 브랜치의 목표는 다음 명령으로 검사할 수 있다.
+
+```bash
+./verify.sh
+```
+
+특정 단계를 직접 지정하려면 단계 번호를 전달한다.
+
+```bash
+./verify.sh 05
+```
+
+푸시와 풀 리퀘스트에서는 GitHub Actions가 같은 검증을 자동으로 실행한다.
