@@ -4,13 +4,19 @@ import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * 클래스 경로의 이미지 묶음을 읽고 필요한 프레임과 타일을 분리한다.
@@ -21,6 +27,7 @@ public final class AssetManager {
     private final Map<String, List<BufferedImage>> sequenceCache = new HashMap<>();
     private final Map<String, BufferedImage> environmentCache = new HashMap<>();
     private final Map<TerrainType, BufferedImage> terrainCache = new HashMap<>();
+    private final Map<String, byte[]> packedAssets = new HashMap<>();
 
     /**
      * 현재 지형에 맞는 배경 타일을 반환한다.
@@ -258,10 +265,8 @@ public final class AssetManager {
     }
 
     private BufferedImage loadImage(String path) {
-        try (InputStream stream = resource(path)) {
-            if (stream == null) {
-                throw new IllegalArgumentException("에셋을 찾을 수 없습니다: " + path);
-            }
+        byte[] bytes = packedAsset(path);
+        try (InputStream stream = new ByteArrayInputStream(bytes)) {
             return ImageIO.read(stream);
         } catch (IOException e) {
             throw new IllegalStateException("에셋을 읽을 수 없습니다: " + path, e);
@@ -272,8 +277,39 @@ public final class AssetManager {
         return imageCache.computeIfAbsent(path, this::loadImage);
     }
 
-    private InputStream resource(String path) {
-        return AssetManager.class.getResourceAsStream("/assets/" + path);
+    private byte[] packedAsset(String path) {
+        if (packedAssets.isEmpty()) {
+            loadPackedAssets();
+        }
+        String name = path.startsWith("atlas/") ? path.substring("atlas/".length()) : path;
+        byte[] bytes = packedAssets.get(name);
+        if (bytes == null) {
+            throw new IllegalArgumentException("에셋을 찾을 수 없습니다: " + path);
+        }
+        return bytes;
+    }
+
+    private void loadPackedAssets() {
+        try (InputStream stream = AssetManager.class.getResourceAsStream("/assets/assets-atlas.b64")) {
+            if (stream == null) {
+                throw new IllegalStateException("압축 에셋 묶음을 찾을 수 없습니다.");
+            }
+            String encoded = new String(stream.readAllBytes(), StandardCharsets.US_ASCII).replaceAll("\s+", "");
+            byte[] zipBytes = Base64.getDecoder().decode(encoded);
+            try (ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
+                ZipEntry entry;
+                while ((entry = zip.getNextEntry()) != null) {
+                    if (entry.isDirectory()) {
+                        continue;
+                    }
+                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                    zip.transferTo(buffer);
+                    packedAssets.put(entry.getName(), buffer.toByteArray());
+                }
+            }
+        } catch (IOException | IllegalArgumentException e) {
+            throw new IllegalStateException("압축 에셋 묶음을 읽을 수 없습니다.", e);
+        }
     }
 
     private int clamp(int value) {
