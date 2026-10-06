@@ -32,15 +32,21 @@ public final class LabMissionVerification {
         }
 
         String stage = args[0];
-        switch (stage) {
-            case "00" -> verifyStart();
-            case "01" -> verifyFly();
-            case "02" -> verifyRubber();
-            case "03" -> verifyOverride();
-            case "04" -> verifyInterface();
-            case "05" -> verifyStrategy();
-            case "06" -> verifyComplete();
-            default -> throw new IllegalArgumentException("알 수 없는 검증 단계입니다: " + stage);
+        try {
+            switch (stage) {
+                case "00" -> verifyStart();
+                case "01" -> verifyFly();
+                case "02" -> verifyRubber();
+                case "03" -> verifyOverride();
+                case "04" -> verifyInterface();
+                case "05" -> verifyStrategy();
+                case "06" -> verifyComplete();
+                default -> throw new IllegalArgumentException("알 수 없는 검증 단계입니다: " + stage);
+            }
+        } catch (IllegalStateException e) {
+            System.err.println(e.getMessage());
+            System.err.println("단계 힌트: " + hint(stage));
+            throw e;
         }
 
         System.out.println("실습 " + stage + "단계 목표 검증을 통과했습니다.");
@@ -178,6 +184,19 @@ public final class LabMissionVerification {
 
         requireFactoryContains("ModelDuck");
         requireBehaviorFactoryContainsRocket();
+    }
+
+    private static String hint(String stage) {
+        return switch (stage) {
+            case "00" -> "아직 fly(), RubberDuck, 행동 객체를 추가하지 않습니다.";
+            case "01" -> "fly()는 Duck에 한 번만 추가하고 MallardDuck과 RedheadDuck은 그대로 상속받게 합니다.";
+            case "02" -> "RubberDuck을 추가하되 fly()는 재정의하지 않습니다. 고무 오리가 실제로 날아가는 문제를 먼저 경험해야 합니다.";
+            case "03" -> "RubberDuck과 DecoyDuck에서 맞지 않는 fly(), quack()을 직접 재정의해 행동을 막습니다.";
+            case "04" -> "Duck에서 fly(), quack()을 제거하고 필요한 오리만 Flyable, Quackable을 구현하게 합니다.";
+            case "05" -> "Flyable, Quackable 대신 FlyBehavior, QuackBehavior 객체로 행동을 분리하고 Duck이 위임하게 합니다.";
+            case "06" -> "ModelDuck의 FlyNoWay를 setFlyBehavior()로 FlyRocketPowered로 교체할 수 있어야 합니다.";
+            default -> "Lab.md와 현재 단계 문서를 확인합니다.";
+        };
     }
 
     private static void requireFactoryContains(String name) {

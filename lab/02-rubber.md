@@ -4,12 +4,14 @@
 
 상속으로 공통 행동을 추가했을 때 잘못된 행동까지 상속되는 문제를 직접 확인한다.
 
-## 시작점
+## 시작
 
 ```bash
-git switch checkpoint/strategy-01-01-fly
+git switch mission/strategy-01-02-rubber
 git switch -c work/strategy-01-02-rubber
 ```
+
+처음 `./verify.sh`를 실행하면 실패하는 것이 정상이다.
 
 ## 미션
 
@@ -26,12 +28,7 @@ git switch -c work/strategy-01-02-rubber
 - RubberDuck의 울음은 "삑삑!"이다.
 - 화면에서 RubberDuck을 선택할 수 있다.
 - RubberDuck의 **날기**를 누르면 실제로 이륙한다.
-
-## 검증
-
-```bash
-./verify.sh 02
-```
+- `./verify.sh`가 통과한다.
 
 ## 정답 비교
 
