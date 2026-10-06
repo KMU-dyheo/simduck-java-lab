@@ -6,7 +6,7 @@ on:
       - main
       - 'lab/**'
       - 'mission/**'
-      - 'checkpoint/**'
+      - 'reference/**'
       - 'work/**'
   pull_request:
   workflow_dispatch:

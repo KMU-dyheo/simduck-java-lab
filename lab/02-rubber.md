@@ -30,10 +30,10 @@ git switch -c work/strategy-01-02-rubber
 - RubberDuck의 **날기**를 누르면 실제로 이륙한다.
 - `./verify.sh`가 통과한다.
 
-## 정답 비교
+## 참고 구현과 비교
 
 ```bash
-git diff checkpoint/strategy-01-02-rubber
+git diff reference/strategy-01-02-rubber
 ```
 
 ## 다음 질문

@@ -35,10 +35,10 @@ git switch -c work/strategy-01-05-strategy
 - 아직 `ModelDuck`, `FlyRocketPowered`는 없어야 한다.
 - `./verify.sh`가 통과한다.
 
-## 정답 비교
+## 참고 구현과 비교
 
 ```bash
-git diff checkpoint/strategy-01-05-strategy
+git diff reference/strategy-01-05-strategy
 ```
 
 ## 전략 패턴 1 정리
