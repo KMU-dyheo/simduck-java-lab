@@ -1,0 +1,4 @@
+allprojects {
+    group = 'edu.kmu'
+    version = '1.0.0'
+}
