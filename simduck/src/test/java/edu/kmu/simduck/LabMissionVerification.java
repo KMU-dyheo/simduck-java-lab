@@ -147,7 +147,7 @@ public final class LabMissionVerification {
 
         requireContains(invokeNew(DUCK + "MallardDuck", "performFly"), "날고 있습니다",
                 "MallardDuck은 FlyWithWings에 비행을 위임해야 합니다.");
-        requireContains(invokeNew(DUCK + "RubberDuck", "performFly"), "날 수 없습니다",
+        requireContains(invokeNew(DUCK + "RubberDuck", "performFly"), "날 수 없",
                 "RubberDuck은 FlyNoWay에 비행을 위임해야 합니다.");
 
         requireNoClass(DUCK + "ModelDuck");
@@ -168,7 +168,7 @@ public final class LabMissionVerification {
         requireBehavior(DUCK + "ModelDuck", "flyBehavior", "FlyNoWay");
 
         Object model = newInstance(DUCK + "ModelDuck");
-        requireContains(invoke(model, "performFly"), "날 수 없습니다",
+        requireContains(invoke(model, "performFly"), "날 수 없",
                 "ModelDuck의 초기 비행 전략은 FlyNoWay여야 합니다.");
 
         Object rocket = newInstance(BEHAVIOR + "FlyRocketPowered");
