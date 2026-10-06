@@ -13,7 +13,7 @@ public final class LabStage {
      * @return 단계 제목
      */
     public static String title() {
-        return "1단계 - Duck에 fly() 추가";
+        return "2단계 - RubberDuck도 fly()를 상속";
     }
 
     /**
@@ -22,6 +22,6 @@ public final class LabStage {
      * @return 실습 질문
      */
     public static String goal() {
-        return "비행 요구사항을 Duck에 넣으면 모든 하위 오리가 자동으로 fly()를 상속한다.";
+        return "고무 오리가 Duck을 상속하자 의도하지 않은 비행 행동까지 함께 상속된다.";
     }
 }

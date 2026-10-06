@@ -3,6 +3,7 @@ package edu.kmu.simduck.simulator;
 import edu.kmu.simduck.duck.Duck;
 import edu.kmu.simduck.duck.MallardDuck;
 import edu.kmu.simduck.duck.RedheadDuck;
+import edu.kmu.simduck.duck.RubberDuck;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ public final class DuckFactory {
     static {
         SKINS.put("MallardDuck", "mallard");
         SKINS.put("RedheadDuck", "redhead");
+        SKINS.put("RubberDuck", "rubber");
     }
 
     private DuckFactory() {
@@ -39,6 +41,7 @@ public final class DuckFactory {
     public static Duck create(String name) {
         return switch (name) {
             case "RedheadDuck" -> new RedheadDuck();
+            case "RubberDuck" -> new RubberDuck();
             default -> new MallardDuck();
         };
     }
