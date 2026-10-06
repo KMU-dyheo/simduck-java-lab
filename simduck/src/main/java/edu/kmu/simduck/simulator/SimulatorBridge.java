@@ -97,14 +97,7 @@ public final class SimulatorBridge {
         }
 
         String log = invokeText(duck, method);
-        String speech;
-        if (log.isBlank()) {
-            speech = "...";
-        } else if (log.contains("삑")) {
-            speech = "삑삑!";
-        } else {
-            speech = "꽥꽥!";
-        }
+        String speech = lastLineOrSilence(log);
         return new QuackResult(true, speech, log);
     }
 
@@ -156,6 +149,14 @@ public final class SimulatorBridge {
             return "Duck.quack() 상속";
         }
         return "quack() 재정의";
+    }
+
+    private static String lastLineOrSilence(String text) {
+        if (text == null || text.isBlank()) {
+            return "...";
+        }
+        String[] lines = text.strip().split("\\R");
+        return lines[lines.length - 1];
     }
 
     private static String invokeText(Duck duck, String methodName) {

@@ -109,6 +109,12 @@ main           → 성공
 
 ## 중요한 원칙
 
+- 학생이 수정하는 기본 영역은 `duck/`, `behavior/`이다.
+- `simulator/`, `resources/assets/`는 제공 코드이며 수정하지 않는다.
+- 새로운 Duck은 `duck` 패키지에 public 기본 생성자로 작성하면 Swing 시뮬레이터가 자동으로 발견한다.
+- 새로운 Duck 외형은 만들지 않는다. 등록되지 않은 Duck은 기존 Mallard 외형으로 표시된다.
+- Strategy 2에서는 새로운 public `FlyBehavior`, `QuackBehavior` 구현도 자동으로 발견된다.
+- 시뮬레이터 사용법은 `SIMULATOR.md`를 참고한다.
 - 시뮬레이터 코드를 고쳐서 검증을 우회하지 않는다.
 - 핵심 설계는 `duck`, `behavior` 패키지에서 구현한다.
 - `reference/*`는 미션을 완료한 뒤 비교용으로 사용한다.
