@@ -4,12 +4,14 @@
 
 필요한 오리만 행동을 선택하게 만들면 상속 문제는 줄어들지만 행동 구현의 재사용 문제가 남는다는 것을 확인한다.
 
-## 시작점
+## 시작
 
 ```bash
-git switch checkpoint/strategy-01-03-override
+git switch mission/strategy-01-04-interface
 git switch -c work/strategy-01-04-interface
 ```
+
+처음 `./verify.sh`를 실행하면 실패하는 것이 정상이다.
 
 ## 미션
 
@@ -26,12 +28,7 @@ git switch -c work/strategy-01-04-interface
 - 잘못된 행동 상속이 사라진다.
 - RubberDuck에는 `fly()` 자체가 없다.
 - MallardDuck과 RedheadDuck에는 같은 행동 코드가 반복된다.
-
-## 검증
-
-```bash
-./verify.sh 04
-```
+- `./verify.sh`가 통과한다.
 
 ## 정답 비교
 
