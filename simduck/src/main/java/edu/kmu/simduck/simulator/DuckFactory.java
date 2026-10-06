@@ -1,5 +1,6 @@
 package edu.kmu.simduck.simulator;
 
+import edu.kmu.simduck.duck.DecoyDuck;
 import edu.kmu.simduck.duck.Duck;
 import edu.kmu.simduck.duck.MallardDuck;
 import edu.kmu.simduck.duck.RedheadDuck;
@@ -18,6 +19,7 @@ public final class DuckFactory {
         SKINS.put("MallardDuck", "mallard");
         SKINS.put("RedheadDuck", "redhead");
         SKINS.put("RubberDuck", "rubber");
+        SKINS.put("DecoyDuck", "decoy");
     }
 
     private DuckFactory() {
@@ -42,6 +44,7 @@ public final class DuckFactory {
         return switch (name) {
             case "RedheadDuck" -> new RedheadDuck();
             case "RubberDuck" -> new RubberDuck();
+            case "DecoyDuck" -> new DecoyDuck();
             default -> new MallardDuck();
         };
     }

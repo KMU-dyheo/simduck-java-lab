@@ -3,7 +3,7 @@ package edu.kmu.simduck.duck;
 /**
  * 고무 오리를 나타낸다.
  *
- * <p>이 단계에서는 울음만 재정의하고 비행은 Duck에서 그대로 상속한다.</p>
+ * <p>상속받은 비행 행동이 맞지 않아 fly 메서드를 재정의한다.</p>
  */
 public final class RubberDuck extends Duck {
 
@@ -13,6 +13,14 @@ public final class RubberDuck extends Duck {
     @Override
     public void quack() {
         System.out.println("삑삑!");
+    }
+
+    /**
+     * 고무 오리는 날 수 없으므로 아무 비행 행동도 하지 않는다.
+     */
+    @Override
+    public void fly() {
+        // 고무 오리는 날지 않는다.
     }
 
     /**

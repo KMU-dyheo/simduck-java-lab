@@ -13,7 +13,7 @@ public final class LabStage {
      * @return 단계 제목
      */
     public static String title() {
-        return "2단계 - RubberDuck도 fly()를 상속";
+        return "3단계 - 맞지 않는 행동을 재정의";
     }
 
     /**
@@ -22,6 +22,6 @@ public final class LabStage {
      * @return 실습 질문
      */
     public static String goal() {
-        return "고무 오리가 Duck을 상속하자 의도하지 않은 비행 행동까지 함께 상속된다.";
+        return "문제는 막았지만 새 오리마다 상속받은 행동을 취소하는 재정의가 반복된다.";
     }
 }
