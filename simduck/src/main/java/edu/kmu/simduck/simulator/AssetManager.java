@@ -22,7 +22,7 @@ import java.util.zip.ZipInputStream;
  * 클래스 경로의 이미지 묶음을 읽고 필요한 프레임과 타일을 분리한다.
  */
 public final class AssetManager {
-    private static final int CELL = 160;
+    private static final int CELL = 80;
     private final Map<String, BufferedImage> imageCache = new HashMap<>();
     private final Map<String, List<BufferedImage>> sequenceCache = new HashMap<>();
     private final Map<String, BufferedImage> environmentCache = new HashMap<>();
@@ -290,12 +290,20 @@ public final class AssetManager {
     }
 
     private void loadPackedAssets() {
-        try (InputStream stream = AssetManager.class.getResourceAsStream("/assets/assets-atlas.b64")) {
-            if (stream == null) {
-                throw new IllegalStateException("압축 에셋 묶음을 찾을 수 없습니다.");
+        try {
+            StringBuilder encoded = new StringBuilder();
+            for (int index = 1; index <= 8; index++) {
+                String resourcePath = String.format("/assets/assets-atlas.part%02d.b64", index);
+                try (InputStream stream = AssetManager.class.getResourceAsStream(resourcePath)) {
+                    if (stream == null) {
+                        throw new IllegalStateException("에셋 조각을 찾을 수 없습니다: " + resourcePath);
+                    }
+                    encoded.append(new String(stream.readAllBytes(), StandardCharsets.US_ASCII)
+                            .replaceAll("\\s+", ""));
+                }
             }
-            String encoded = new String(stream.readAllBytes(), StandardCharsets.US_ASCII).replaceAll("\s+", "");
-            byte[] zipBytes = Base64.getDecoder().decode(encoded);
+
+            byte[] zipBytes = Base64.getDecoder().decode(encoded.toString());
             try (ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
                 ZipEntry entry;
                 while ((entry = zip.getNextEntry()) != null) {
@@ -306,6 +314,10 @@ public final class AssetManager {
                     zip.transferTo(buffer);
                     packedAssets.put(entry.getName(), buffer.toByteArray());
                 }
+            }
+
+            if (packedAssets.isEmpty()) {
+                throw new IllegalStateException("압축 에셋 묶음 안에 이미지가 없습니다.");
             }
         } catch (IOException | IllegalArgumentException e) {
             throw new IllegalStateException("압축 에셋 묶음을 읽을 수 없습니다.", e);
