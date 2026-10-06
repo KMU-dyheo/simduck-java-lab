@@ -23,6 +23,10 @@ git switch -c work/strategy-01-04-interface
 6. DecoyDuck은 두 인터페이스를 모두 구현하지 않는다.
 7. MallardDuck과 RedheadDuck의 `fly()`, `quack()` 구현이 중복되는 것을 직접 확인한다.
 
+## 수정 영역
+
+`duck/`의 클래스와 인터페이스만 수정한다. Swing 및 에셋 코드는 수정하지 않는다. 오리 선택 목록은 현재 Duck 하위 클래스를 자동으로 반영한다.
+
 ## 완료 조건
 
 - 잘못된 행동 상속이 사라진다.

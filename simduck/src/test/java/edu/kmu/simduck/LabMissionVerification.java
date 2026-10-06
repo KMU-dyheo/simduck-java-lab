@@ -83,7 +83,7 @@ public final class LabMissionVerification {
                 "이 단계에서는 RubberDuck이 잘못 날아가야 문제를 확인할 수 있습니다.");
         requireContains(invokeNew(DUCK + "RubberDuck", "quack"), "삑삑",
                 "RubberDuck의 울음은 삑삑이어야 합니다.");
-        requireFactoryContains("RubberDuck");
+        requireSimulatorFinds("RubberDuck");
     }
 
     private static void verifyOverride() {
@@ -98,7 +98,7 @@ public final class LabMissionVerification {
                 "DecoyDuck.fly()는 아무 동작도 하지 않아야 합니다.");
         requireBlank(invokeNew(DUCK + "DecoyDuck", "quack"),
                 "DecoyDuck.quack()은 아무 소리도 내지 않아야 합니다.");
-        requireFactoryContains("DecoyDuck");
+        requireSimulatorFinds("DecoyDuck");
     }
 
     private static void verifyInterface() {
@@ -182,7 +182,7 @@ public final class LabMissionVerification {
         requireContains(invoke(model, "performFly"), "로켓",
                 "setFlyBehavior()로 FlyRocketPowered를 적용한 뒤 로켓 비행이 실행되어야 합니다.");
 
-        requireFactoryContains("ModelDuck");
+        requireSimulatorFinds("ModelDuck");
         requireBehaviorFactoryContainsRocket();
     }
 
@@ -199,11 +199,11 @@ public final class LabMissionVerification {
         };
     }
 
-    private static void requireFactoryContains(String name) {
+    private static void requireSimulatorFinds(String name) {
         Object value = invokeStatic(SIMULATOR + "DuckFactory", "names");
         require(value instanceof String[], "DuckFactory.names()는 문자열 배열을 반환해야 합니다.");
         require(Arrays.asList((String[]) value).contains(name),
-                "DuckFactory에서 " + name + "을 선택할 수 있어야 합니다.");
+                "시뮬레이터가 " + name + "을 자동으로 발견해야 합니다.");
     }
 
     private static void requireBehaviorFactoryContainsRocket() {
