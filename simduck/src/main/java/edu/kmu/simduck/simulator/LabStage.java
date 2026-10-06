@@ -7,21 +7,23 @@ public final class LabStage {
     private LabStage() {
     }
 
-    /**
-     * 현재 단계의 제목을 반환한다.
-     *
-     * @return 단계 제목
-     */
     public static String title() {
         return "1단계 - Duck에 fly() 추가";
     }
 
-    /**
-     * 현재 단계에서 확인할 핵심 질문을 반환한다.
-     *
-     * @return 실습 질문
-     */
     public static String goal() {
         return "비행 요구사항을 Duck에 넣으면 모든 하위 오리가 자동으로 fly()를 상속한다.";
+    }
+
+    public static boolean showFlyButton() {
+        return true;
+    }
+
+    public static boolean showStructure() {
+        return false;
+    }
+
+    public static String preferredDuck() {
+        return "MallardDuck";
     }
 }

@@ -17,9 +17,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Arrays;
 
 /**
- * 전략 패턴 1의 설계 변화와 화면 동작을 함께 확인하는 실행 창이다.
+ * 전략 패턴 1의 설계 변화를 단계별로 확인하는 실행 창이다.
+ *
+ * <p>애니메이션 엔진은 모든 단계에서 재사용하지만, 화면에 노출되는 기능은
+ * 현재 실습 단계에 맞게 제한한다.</p>
  */
 public final class SimDuckFrame extends JFrame {
     private final SimulationModel model = new SimulationModel();
@@ -27,7 +31,6 @@ public final class SimDuckFrame extends JFrame {
     private final AnimationController animation = new AnimationController(model);
     private final PondPanel pondPanel = new PondPanel(model, assets);
     private final JComboBox<String> duckBox = new JComboBox<>(DuckFactory.names());
-    private final JComboBox<TerrainType> terrainBox = new JComboBox<>(TerrainType.values());
     private final JLabel flyStructure = new JLabel();
     private final JLabel quackStructure = new JLabel();
     private final JTextArea logArea = new JTextArea();
@@ -39,16 +42,16 @@ public final class SimDuckFrame extends JFrame {
         setLayout(new BorderLayout(10, 10));
         add(pondPanel, BorderLayout.CENTER);
         add(buildControlPanel(), BorderLayout.EAST);
-        setInitialDuck("MallardDuck");
+        setInitialDuck(initialDuckName());
         startTimer();
         pack();
-        setMinimumSize(new Dimension(1180, 720));
+        setMinimumSize(new Dimension(1080, 680));
         setLocationRelativeTo(null);
     }
 
     private JPanel buildControlPanel() {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(340, 640));
+        panel.setPreferredSize(new Dimension(330, 610));
         panel.setBorder(BorderFactory.createEmptyBorder(12, 8, 12, 12));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -56,36 +59,29 @@ public final class SimDuckFrame extends JFrame {
         JLabel stage = new JLabel("<html><b>" + LabStage.title() + "</b></html>");
         panel.add(stage);
         JLabel goal = new JLabel("<html>" + LabStage.goal() + "</html>");
-        goal.setPreferredSize(new Dimension(310, 55));
+        goal.setPreferredSize(new Dimension(300, 60));
         panel.add(goal);
-        panel.add(Box.createVerticalStrut(10));
+        panel.add(Box.createVerticalStrut(12));
 
         panel.add(sectionTitle("오리 선택"));
         panel.add(duckBox);
-        panel.add(Box.createVerticalStrut(8));
-
-        panel.add(sectionTitle("현재 행동 구조"));
-        panel.add(flyStructure);
-        panel.add(quackStructure);
-        panel.add(Box.createVerticalStrut(8));
-
-        panel.add(sectionTitle("지형 선택"));
-        terrainBox.setRenderer(new TerrainRenderer());
-        panel.add(terrainBox);
         panel.add(Box.createVerticalStrut(10));
+
+        if (LabStage.showStructure()) {
+            panel.add(sectionTitle("현재 행동 구조"));
+            panel.add(flyStructure);
+            panel.add(quackStructure);
+            panel.add(Box.createVerticalStrut(10));
+        }
 
         panel.add(sectionTitle("행동 실행"));
         JPanel actions = new JPanel(new GridLayout(0, 2, 6, 6));
         addButton(actions, "모습", this::displayDuck);
         addButton(actions, "울기", this::performQuack);
         addButton(actions, "수영", this::performSwim);
-        addButton(actions, "걷기", animation::walk);
-        addButton(actions, "날기", this::performFly);
-        addButton(actions, "착륙", animation::land);
-        addButton(actions, "물고기", animation::fish);
-        addButton(actions, "성공 낚시", () -> animation.fish(true));
-        addButton(actions, "실패 낚시", () -> animation.fish(false));
-        addButton(actions, "초기화", animation::resetForTerrain);
+        if (LabStage.showFlyButton()) {
+            addButton(actions, "날기", this::performFly);
+        }
         panel.add(actions);
         panel.add(Box.createVerticalStrut(12));
 
@@ -95,18 +91,10 @@ public final class SimDuckFrame extends JFrame {
         logArea.setLineWrap(true);
         logArea.setWrapStyleWord(true);
         JScrollPane scroll = new JScrollPane(logArea);
-        scroll.setPreferredSize(new Dimension(310, 185));
+        scroll.setPreferredSize(new Dimension(300, 220));
         panel.add(scroll);
 
         duckBox.addActionListener(event -> setInitialDuck((String) duckBox.getSelectedItem()));
-        terrainBox.addActionListener(event -> {
-            TerrainType terrain = (TerrainType) terrainBox.getSelectedItem();
-            if (terrain != null) {
-                model.setTerrain(terrain);
-                animation.resetForTerrain();
-                log("지형 변경: " + terrain.displayName());
-            }
-        });
         return panel;
     }
 
@@ -124,6 +112,18 @@ public final class SimDuckFrame extends JFrame {
             pondPanel.repaint();
         });
         panel.add(button);
+    }
+
+    private String initialDuckName() {
+        String preferred = LabStage.preferredDuck();
+        String[] names = DuckFactory.names();
+        if (Arrays.asList(names).contains(preferred)) {
+            return preferred;
+        }
+        if (names.length == 0) {
+            throw new IllegalStateException("시뮬레이터에서 사용할 Duck 하위 클래스를 찾지 못했습니다.");
+        }
+        return names[0];
     }
 
     private void setInitialDuck(String name) {
@@ -173,6 +173,9 @@ public final class SimDuckFrame extends JFrame {
     }
 
     private void refreshStructure() {
+        if (!LabStage.showStructure()) {
+            return;
+        }
         flyStructure.setText("비행: " + SimulatorBridge.describeFly(model.duck()));
         quackStructure.setText("울음: " + SimulatorBridge.describeQuack(model.duck()));
     }
@@ -197,18 +200,5 @@ public final class SimDuckFrame extends JFrame {
             pondPanel.repaint();
         });
         timer.start();
-    }
-
-    /**
-     * 지형 열거형을 한글 이름으로 표시한다.
-     */
-    private static final class TerrainRenderer extends javax.swing.DefaultListCellRenderer {
-        @Override
-        public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value,
-                                                                int index, boolean isSelected,
-                                                                boolean cellHasFocus) {
-            Object shown = value instanceof TerrainType terrain ? terrain.displayName() : value;
-            return super.getListCellRendererComponent(list, shown, index, isSelected, cellHasFocus);
-        }
     }
 }
