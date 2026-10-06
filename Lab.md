@@ -8,20 +8,26 @@
 
 - `mission/*`: 학생이 시작하는 **미완성 상태**다. 해당 단계의 GitHub Actions는 처음에는 실패하는 것이 정상이다.
 - `work/*`: 학생 개인 작업 브랜치다. `mission/*`에서 분기해 미션을 구현한다.
-- `checkpoint/*`: 해당 단계의 **정답 상태**다. GitHub Actions가 통과한다.
+- `reference/*`: 해당 단계에서 수업이 제시하는 **참고 구현(reference implementation)** 이다. GitHub Actions가 통과한다.
 - `lab/strategy-01-start`: 전략 패턴 1의 최초 출발점이다.
 - `main`: 전략 패턴 2의 실행 중 전략 교체까지 포함한 완성본이다.
 
+### 왜 `reference/*`라는 이름을 사용하는가?
+
+`reference/*`는 "이 코드만이 정답"이라는 뜻이 아니다. 디자인 패턴 실습에서는 같은 설계 원칙을 만족하면서도 세부 구현이 달라질 수 있다. 그래서 `solution/*`보다 **교수자가 제공하는 기준 구현**이라는 의미의 `reference/*`가 더 적합하다.
+
+기존 `checkpoint/*`는 "특정 진행 시점"이라는 의미가 강해 비교용 구현이라는 역할이 모호했다. 현재 실습 문서와 자동 검증에서는 `reference/*`를 공식 이름으로 사용한다.
+
 ## 단계 구성
 
-| 단계 | 학생 시작 브랜치 | 정답 브랜치 | 문서 | 핵심 내용 |
+| 단계 | 학생 시작 브랜치 | 참고 구현 브랜치 | 문서 | 핵심 내용 |
 |---|---|---|---|---|
 | 00 | `lab/strategy-01-start` | 동일 | `lab/00-start.md` | 기본 상속 구조 확인 |
-| 01 | `mission/strategy-01-01-fly` | `checkpoint/strategy-01-01-fly` | `lab/01-fly.md` | `Duck.fly()` 추가 |
-| 02 | `mission/strategy-01-02-rubber` | `checkpoint/strategy-01-02-rubber` | `lab/02-rubber.md` | RubberDuck이 잘못 날아가는 문제 |
-| 03 | `mission/strategy-01-03-override` | `checkpoint/strategy-01-03-override` | `lab/03-override.md` | 잘못 상속된 행동 재정의 |
-| 04 | `mission/strategy-01-04-interface` | `checkpoint/strategy-01-04-interface` | `lab/04-interface.md` | `Flyable`, `Quackable` 분리 |
-| 05 | `mission/strategy-01-05-strategy` | `checkpoint/strategy-01-05-strategy` | `lab/05-strategy.md` | `FlyBehavior`, `QuackBehavior`로 행동 분리 |
+| 01 | `mission/strategy-01-01-fly` | `reference/strategy-01-01-fly` | `lab/01-fly.md` | `Duck.fly()` 추가 |
+| 02 | `mission/strategy-01-02-rubber` | `reference/strategy-01-02-rubber` | `lab/02-rubber.md` | RubberDuck이 잘못 날아가는 문제 |
+| 03 | `mission/strategy-01-03-override` | `reference/strategy-01-03-override` | `lab/03-override.md` | 잘못 상속된 행동 재정의 |
+| 04 | `mission/strategy-01-04-interface` | `reference/strategy-01-04-interface` | `lab/04-interface.md` | `Flyable`, `Quackable` 분리 |
+| 05 | `mission/strategy-01-05-strategy` | `reference/strategy-01-05-strategy` | `lab/05-strategy.md` | `FlyBehavior`, `QuackBehavior`로 행동 분리 |
 | 06 | `main` | 동일 | `lab/06-main-complete.md` | 실행 중 전략 교체와 로켓 비행까지 포함한 완성본 |
 
 전략 패턴 1의 수업 범위는 **05단계까지**다. 06단계는 전략 패턴 2에서 다룰 내용까지 포함한다.
@@ -56,10 +62,10 @@ verify.bat
 ./verify.sh 02
 ```
 
-미션을 완료한 뒤에만 정답과 비교한다.
+미션을 완료한 뒤에만 참고 구현과 비교한다.
 
 ```bash
-git diff checkpoint/strategy-01-02-rubber
+git diff reference/strategy-01-02-rubber
 ```
 
 ## 화면 확인
@@ -79,7 +85,7 @@ git diff checkpoint/strategy-01-02-rubber
 - `mission/**`
 - `work/**`
 - `lab/**`
-- `checkpoint/**`
+- `reference/**`
 - `main`
 
 의도한 상태는 다음과 같다.
@@ -87,7 +93,7 @@ git diff checkpoint/strategy-01-02-rubber
 ```text
 mission/*      → 처음에는 실패
 work/*         → 구현 전 실패, 구현 완료 후 성공
-checkpoint/*   → 성공
+reference/*   → 성공
 main           → 성공
 ```
 
@@ -105,6 +111,6 @@ main           → 성공
 
 - 시뮬레이터 코드를 고쳐서 검증을 우회하지 않는다.
 - 핵심 설계는 `duck`, `behavior` 패키지에서 구현한다.
-- `checkpoint/*`는 미션을 완료한 뒤 비교용으로 사용한다.
+- `reference/*`는 미션을 완료한 뒤 비교용으로 사용한다.
 - 05단계 전에는 `FlyRocketPowered`, `ModelDuck`, 실행 중 전략 교체를 미리 구현하지 않는다.
 - 05단계에서 전략 패턴 1을 마무리하고, 실행 중 전략 변경은 다음 수업으로 남긴다.
