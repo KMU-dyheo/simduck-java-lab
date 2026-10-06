@@ -177,32 +177,29 @@ factory-pizza
 
 ## 전략 패턴 1 단계별 브랜치
 
-전략 패턴 1은 완성된 구조를 한 번에 보는 대신 설계가 변하는 과정을 단계별 브랜치로 확인할 수 있다.
+전략 패턴 1은 **미션 브랜치에서 시작하고 체크포인트 브랜치에서 정답을 확인하는 방식**으로 진행한다.
 
-| 브랜치 | 단계 | 확인할 내용 |
+| 단계 | 학생 시작 브랜치 | 정답 브랜치 |
 |---|---|---|
-| `lab/strategy-01-start` | 시작 | `Duck`의 공통 행동을 상속하는 초기 구조 |
-| `checkpoint/strategy-01-01-fly` | 1단계 | `Duck.fly()`를 추가하고 모든 오리가 상속 |
-| `checkpoint/strategy-01-02-rubber` | 2단계 | RubberDuck도 `fly()`를 상속해서 실제로 날아가는 문제 |
-| `checkpoint/strategy-01-03-override` | 3단계 | RubberDuck과 DecoyDuck에서 맞지 않는 행동을 재정의 |
-| `checkpoint/strategy-01-04-interface` | 4단계 | `Flyable`, `Quackable`로 필요한 기능만 선택 |
-| `checkpoint/strategy-01-05-strategy` | 5단계 | `FlyBehavior`, `QuackBehavior`를 객체로 분리하고 위임 |
+| 시작 | `lab/strategy-01-start` | 동일 |
+| 1단계 | `mission/strategy-01-01-fly` | `checkpoint/strategy-01-01-fly` |
+| 2단계 | `mission/strategy-01-02-rubber` | `checkpoint/strategy-01-02-rubber` |
+| 3단계 | `mission/strategy-01-03-override` | `checkpoint/strategy-01-03-override` |
+| 4단계 | `mission/strategy-01-04-interface` | `checkpoint/strategy-01-04-interface` |
+| 5단계 | `mission/strategy-01-05-strategy` | `checkpoint/strategy-01-05-strategy` |
 
-수업 시작 시 다음과 같이 시작 브랜치로 이동한다.
-
-```bash
-git switch lab/strategy-01-start
-```
-
-각 단계의 정답 상태를 확인하려면 해당 체크포인트 브랜치로 이동한다.
+`mission/*` 브랜치는 의도적으로 미완성이다. 처음 GitHub Actions가 실패하는 것이 정상이며, 학생은 이 브랜치에서 개인 작업 브랜치를 만든다.
 
 ```bash
-git switch checkpoint/strategy-01-02-rubber
+git switch mission/strategy-01-02-rubber
+git switch -c work/strategy-01-02-rubber
 ```
 
-각 실습 브랜치에는 현재 단계의 목적과 다음 문제를 설명하는 `Lab.md`가 들어 있다.
+코드를 수정하면서 `./verify.sh`를 반복 실행하고, 검증이 통과한 뒤에만 해당 `checkpoint/*` 브랜치와 비교한다.
 
-`main` 브랜치는 전략 패턴 2에서 사용할 실행 중 행동 교체와 `FlyRocketPowered`까지 포함한 완성 상태를 유지한다.
+전체 단계와 미션 설명은 `Lab.md`, 세부 미션은 `lab/NN-*.md`에 있다.
+
+`main`은 전략 패턴 2의 실행 중 행동 교체와 `FlyRocketPowered`까지 포함한 완성 상태다.
 
 
 ## 자동 실습 검증
