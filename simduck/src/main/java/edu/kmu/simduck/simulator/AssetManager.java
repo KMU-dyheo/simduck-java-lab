@@ -8,9 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -290,32 +288,12 @@ public final class AssetManager {
     }
 
     private void loadPackedAssets() {
-        try {
-            StringBuilder encoded = new StringBuilder();
-            String[] resourcePaths = {
-                    "/assets/assets-atlas.part01.b64",
-                    "/assets/assets-atlas.part02a.b64",
-                    "/assets/assets-atlas.part02b.b64",
-                    "/assets/assets-atlas.part03.b64",
-                    "/assets/assets-atlas.part04a.b64",
-                    "/assets/assets-atlas.part04b.b64",
-                    "/assets/assets-atlas.part05.b64",
-                    "/assets/assets-atlas.part06.b64",
-                    "/assets/assets-atlas.part07.b64",
-                    "/assets/assets-atlas.part08.b64"
-            };
-            for (String resourcePath : resourcePaths) {
-                try (InputStream stream = AssetManager.class.getResourceAsStream(resourcePath)) {
-                    if (stream == null) {
-                        throw new IllegalStateException("에셋 조각을 찾을 수 없습니다: " + resourcePath);
-                    }
-                    encoded.append(new String(stream.readAllBytes(), StandardCharsets.US_ASCII)
-                            .replaceAll("\\s+", ""));
-                }
+        try (InputStream stream = AssetManager.class.getResourceAsStream("/assets/assets-atlas.zip")) {
+            if (stream == null) {
+                throw new IllegalStateException("압축 에셋 묶음을 찾을 수 없습니다.");
             }
 
-            byte[] zipBytes = Base64.getDecoder().decode(encoded.toString());
-            try (ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
+            try (ZipInputStream zip = new ZipInputStream(stream)) {
                 ZipEntry entry;
                 while ((entry = zip.getNextEntry()) != null) {
                     if (entry.isDirectory()) {
@@ -330,7 +308,7 @@ public final class AssetManager {
             if (packedAssets.isEmpty()) {
                 throw new IllegalStateException("압축 에셋 묶음 안에 이미지가 없습니다.");
             }
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IOException e) {
             throw new IllegalStateException("압축 에셋 묶음을 읽을 수 없습니다.", e);
         }
     }
