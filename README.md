@@ -6,7 +6,7 @@
 
 ## 현재 포함된 실습
 
-- 전략 패턴: `strategy-simduck`
+- 전략 패턴: `simduck`
 - 이후 다른 패턴 실습 모듈을 같은 저장소에 추가할 수 있도록 다중 프로젝트 구조로 구성
 
 ## 학습 목표
@@ -103,13 +103,13 @@ run.bat
 ## 그래들을 사용하는 경우
 
 ```bash
-gradle :strategy-simduck:run
+gradle :simduck:run
 ```
 
 교재의 콘솔 예제만 실행하려면 다음을 사용한다.
 
 ```bash
-gradle :strategy-simduck:runBookDemo
+gradle :simduck:runBookDemo
 ```
 
 ## 핵심 설계 검증
@@ -166,7 +166,7 @@ model.performFly();
 이 저장소는 전략 패턴에 한정하지 않는다. 이후 수업에서는 다음과 같이 별도 모듈을 추가할 수 있다.
 
 ```text
-strategy-simduck
+simduck
 observer-weather
 decorator-starbuzz
 factory-pizza

@@ -37,6 +37,6 @@
 - 물, 물고기 물, 초원, 모래 지형 아틀라스
 - 섬, 바위, 통나무, 갈대, 물결 아틀라스
 
-압축 묶음은 `strategy-simduck/src/main/resources/assets/assets-atlas.b64`에 저장하며, `AssetManager`가 실행할 때 메모리에서 해제하여 사용한다.
+압축 묶음은 `simduck/src/main/resources/assets/assets-atlas.b64`에 저장하며, `AssetManager`가 실행할 때 메모리에서 해제하여 사용한다.
 
 붉은머리오리, 고무 오리, 유인용 오리, 모형 오리는 기본 오리 에셋을 바탕으로 실행 중 색상을 변환하여 표현한다. 따라서 같은 형태의 대용량 이미지 묶음을 반복해서 저장하지 않는다.

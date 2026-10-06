@@ -1,2 +1,2 @@
 rootProject.name = 'simduck-java-lab'
-include 'strategy-simduck'
+include 'simduck'
