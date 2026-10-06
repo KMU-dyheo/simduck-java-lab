@@ -4,12 +4,14 @@
 
 전략 패턴 1의 핵심인 **변하는 행동을 별도 객체로 분리하고 Duck이 행동 객체에 위임하는 구조**를 구현한다.
 
-## 시작점
+## 시작
 
 ```bash
-git switch checkpoint/strategy-01-04-interface
+git switch mission/strategy-01-05-strategy
 git switch -c work/strategy-01-05-strategy
 ```
+
+처음 `./verify.sh`를 실행하면 실패하는 것이 정상이다.
 
 ## 미션
 
@@ -31,12 +33,7 @@ git switch -c work/strategy-01-05-strategy
 - `Duck`은 실제 비행과 울음 방법을 직접 구현하지 않는다.
 - 아직 `setFlyBehavior()`, `setQuackBehavior()`는 없어야 한다.
 - 아직 `ModelDuck`, `FlyRocketPowered`는 없어야 한다.
-
-## 검증
-
-```bash
-./verify.sh 05
-```
+- `./verify.sh`가 통과한다.
 
 ## 정답 비교
 

@@ -4,12 +4,14 @@
 
 잘못 상속된 행동을 하위 클래스에서 재정의하는 해결책과 그 한계를 확인한다.
 
-## 시작점
+## 시작
 
 ```bash
-git switch checkpoint/strategy-01-02-rubber
+git switch mission/strategy-01-03-override
 git switch -c work/strategy-01-03-override
 ```
+
+처음 `./verify.sh`를 실행하면 실패하는 것이 정상이다.
 
 ## 미션
 
@@ -26,12 +28,7 @@ git switch -c work/strategy-01-03-override
 - DecoyDuck은 `fly()`, `quack()`을 직접 재정의한다.
 - 잘못된 화면 동작은 사라진다.
 - 대신 행동을 취소하기 위한 빈 메서드가 여러 클래스에 생긴다.
-
-## 검증
-
-```bash
-./verify.sh 03
-```
+- `./verify.sh`가 통과한다.
 
 ## 정답 비교
 
