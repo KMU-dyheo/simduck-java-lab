@@ -292,8 +292,18 @@ public final class AssetManager {
     private void loadPackedAssets() {
         try {
             StringBuilder encoded = new StringBuilder();
-            for (int index = 1; index <= 8; index++) {
-                String resourcePath = String.format("/assets/assets-atlas.part%02d.b64", index);
+            String[] resourcePaths = {
+                    "/assets/assets-atlas.part01.b64",
+                    "/assets/assets-atlas.part02.b64",
+                    "/assets/assets-atlas.part03.b64",
+                    "/assets/assets-atlas.part04a.b64",
+                    "/assets/assets-atlas.part04b.b64",
+                    "/assets/assets-atlas.part05.b64",
+                    "/assets/assets-atlas.part06.b64",
+                    "/assets/assets-atlas.part07.b64",
+                    "/assets/assets-atlas.part08.b64"
+            };
+            for (String resourcePath : resourcePaths) {
                 try (InputStream stream = AssetManager.class.getResourceAsStream(resourcePath)) {
                     if (stream == null) {
                         throw new IllegalStateException("에셋 조각을 찾을 수 없습니다: " + resourcePath);
