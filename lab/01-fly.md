@@ -33,12 +33,12 @@ git switch -c work/strategy-01-01-fly
 - 두 오리가 화면에서 실제로 이륙하고 비행한다.
 - `./verify.sh`가 통과한다.
 
-## 정답 비교
+## 참고 구현과 비교
 
 미션을 완료한 뒤에만 비교한다.
 
 ```bash
-git diff checkpoint/strategy-01-01-fly
+git diff reference/strategy-01-01-fly
 ```
 
 ## 다음 질문
