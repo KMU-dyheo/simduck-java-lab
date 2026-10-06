@@ -1,11 +1,20 @@
 package edu.kmu.simduck.duck;
 
+import edu.kmu.simduck.behavior.FlyNoWay;
+import edu.kmu.simduck.behavior.MuteQuack;
+
 /**
  * 사냥용 유인 오리를 나타낸다.
- *
- * <p>유인 오리는 날지도 울지도 않으므로 비행과 울음 인터페이스를 구현하지 않는다.</p>
  */
 public final class DecoyDuck extends Duck {
+
+    /**
+     * 유인 오리에 필요한 비행과 울음 행동 객체를 구성한다.
+     */
+    public DecoyDuck() {
+        flyBehavior = new FlyNoWay();
+        quackBehavior = new MuteQuack();
+    }
 
     /**
      * 유인 오리의 모습을 출력한다.

@@ -1,24 +1,19 @@
 package edu.kmu.simduck.duck;
 
+import edu.kmu.simduck.behavior.FlyWithWings;
+import edu.kmu.simduck.behavior.Quack;
+
 /**
  * 청둥오리를 나타낸다.
  */
-public final class MallardDuck extends Duck implements Flyable, Quackable {
+public final class MallardDuck extends Duck {
 
     /**
-     * 청둥오리의 비행 행동을 수행한다.
+     * 청둥오리에 필요한 비행과 울음 행동 객체를 구성한다.
      */
-    @Override
-    public void fly() {
-        System.out.println("날고 있습니다.");
-    }
-
-    /**
-     * 청둥오리의 울음 행동을 수행한다.
-     */
-    @Override
-    public void quack() {
-        System.out.println("꽥꽥!");
+    public MallardDuck() {
+        flyBehavior = new FlyWithWings();
+        quackBehavior = new Quack();
     }
 
     /**

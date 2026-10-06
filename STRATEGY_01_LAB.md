@@ -2,31 +2,65 @@
 
 ## 현재 단계
 
-**4단계 - Flyable과 Quackable 분리**
+**5단계 - 변하는 행동을 객체로 분리**
 
-상속받은 행동을 취소하는 대신 필요한 기능만 선택하도록 바꿨다.
+앞 단계의 문제는 행동의 선택이 아니라 **행동 구현의 재사용**이었다.
+
+비행과 울음을 오리 클래스 밖으로 분리한다.
 
 ```text
-MallardDuck  ── implements Flyable, Quackable
-RedheadDuck  ── implements Flyable, Quackable
-RubberDuck   ── implements Quackable
-DecoyDuck    ── 기능 인터페이스 없음
+Duck
+ ├─ FlyBehavior
+ │   ├─ FlyWithWings
+ │   └─ FlyNoWay
+ │
+ └─ QuackBehavior
+     ├─ Quack
+     ├─ Squeak
+     └─ MuteQuack
+```
+
+Duck은 실제 비행 방법을 알 필요가 없다.
+
+```java
+public void performFly() {
+    flyBehavior.fly();
+}
+```
+
+각 오리는 자신에게 필요한 행동 객체를 조합한다.
+
+```java
+public MallardDuck() {
+    flyBehavior = new FlyWithWings();
+    quackBehavior = new Quack();
+}
+```
+
+```java
+public RubberDuck() {
+    flyBehavior = new FlyNoWay();
+    quackBehavior = new Squeak();
+}
 ```
 
 ## 확인할 것
 
-1. MallardDuck을 선택하고 날기와 울기를 실행한다.
-2. 화면에 비행 구조가 `Flyable 구현`으로 표시되는지 확인한다.
-3. RubberDuck을 선택하고 날기를 실행한다.
-4. RubberDuck에는 비행 메서드 자체가 없다는 것을 확인한다.
-5. MallardDuck.java와 RedheadDuck.java의 `fly()`, `quack()` 코드를 비교한다.
+1. MallardDuck을 선택한다.
+2. 화면의 비행 구조가 `FlyWithWings`으로 표시되는지 확인한다.
+3. RubberDuck을 선택한다.
+4. 비행 구조가 `FlyNoWay`로 바뀌는지 확인한다.
+5. MallardDuck과 RedheadDuck이 같은 `FlyWithWings` 구현을 재사용하는지 코드를 확인한다.
+6. RubberDuck과 DecoyDuck이 같은 `FlyNoWay` 구현을 재사용하는지 확인한다.
 
-## 핵심 문제
+## 전략 패턴 1 정리
 
-기능 선택은 명확해졌지만 **행동 구현을 재사용할 수 없다.**
+- 상속 자체가 항상 나쁜 것은 아니다.
+- 문제는 자주 달라지는 행동이 상속 계층에 고정된 것이다.
+- 변하는 부분을 찾아 별도 객체로 분리한다.
+- Duck은 행동 객체를 가지고 있으며 실제 실행을 그 객체에 위임한다.
+- 같은 행동 구현을 여러 오리가 재사용할 수 있다.
 
-같은 비행 코드를 여러 오리 클래스에 복사하면 행동을 수정할 때 여러 클래스를 함께 고쳐야 한다.
+## 다음 수업
 
-## 다음 시도
-
-변하는 행동을 `FlyBehavior`, `QuackBehavior` 객체로 분리하고 Duck이 그 객체에 행동을 위임하도록 바꾼다.
+전략 패턴 2에서는 ModelDuck과 `setFlyBehavior()`를 추가하고 실행 중 `FlyRocketPowered`로 비행 전략을 교체한다.

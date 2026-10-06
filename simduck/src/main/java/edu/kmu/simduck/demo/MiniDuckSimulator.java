@@ -1,28 +1,36 @@
 package edu.kmu.simduck.demo;
 
+import edu.kmu.simduck.duck.DecoyDuck;
+import edu.kmu.simduck.duck.Duck;
 import edu.kmu.simduck.duck.MallardDuck;
 import edu.kmu.simduck.duck.RubberDuck;
 
 /**
- * 비행과 울음을 기능 인터페이스로 분리한 결과를 확인한다.
+ * 변하는 행동을 별도 객체로 분리한 결과를 콘솔에서 확인한다.
  */
 public final class MiniDuckSimulator {
     private MiniDuckSimulator() {
     }
 
     /**
-     * 청둥오리와 고무 오리의 서로 다른 기능 구성을 실행한다.
+     * 서로 다른 오리가 행동 객체를 조합해서 사용하는 모습을 실행한다.
      *
      * @param args 사용하지 않는 명령행 인자
      */
     public static void main(String[] args) {
-        MallardDuck mallard = new MallardDuck();
+        Duck mallard = new MallardDuck();
         mallard.display();
-        mallard.fly();
-        mallard.quack();
+        mallard.performFly();
+        mallard.performQuack();
 
-        RubberDuck rubber = new RubberDuck();
+        Duck rubber = new RubberDuck();
         rubber.display();
-        rubber.quack();
+        rubber.performFly();
+        rubber.performQuack();
+
+        Duck decoy = new DecoyDuck();
+        decoy.display();
+        decoy.performFly();
+        decoy.performQuack();
     }
 }

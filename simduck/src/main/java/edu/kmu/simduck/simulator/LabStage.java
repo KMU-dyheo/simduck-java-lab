@@ -13,7 +13,7 @@ public final class LabStage {
      * @return 단계 제목
      */
     public static String title() {
-        return "4단계 - Flyable과 Quackable 분리";
+        return "5단계 - 변하는 행동을 객체로 분리";
     }
 
     /**
@@ -22,6 +22,6 @@ public final class LabStage {
      * @return 실습 질문
      */
     public static String goal() {
-        return "필요한 오리만 행동 인터페이스를 구현하지만 같은 행동 코드가 여러 클래스에 중복된다.";
+        return "Duck은 비행과 울음을 직접 구현하지 않고 FlyBehavior와 QuackBehavior에 위임한다.";
     }
 }

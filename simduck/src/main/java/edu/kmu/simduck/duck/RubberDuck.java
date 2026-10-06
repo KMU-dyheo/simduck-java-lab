@@ -1,18 +1,19 @@
 package edu.kmu.simduck.duck;
 
+import edu.kmu.simduck.behavior.FlyNoWay;
+import edu.kmu.simduck.behavior.Squeak;
+
 /**
  * 고무 오리를 나타낸다.
- *
- * <p>고무 오리는 울음 기능만 가지므로 Quackable만 구현한다.</p>
  */
-public final class RubberDuck extends Duck implements Quackable {
+public final class RubberDuck extends Duck {
 
     /**
-     * 고무 오리의 울음소리를 출력한다.
+     * 고무 오리에 필요한 비행과 울음 행동 객체를 구성한다.
      */
-    @Override
-    public void quack() {
-        System.out.println("삑삑!");
+    public RubberDuck() {
+        flyBehavior = new FlyNoWay();
+        quackBehavior = new Squeak();
     }
 
     /**

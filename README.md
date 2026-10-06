@@ -1,17 +1,18 @@
 # 심덕 자바 실습
 
-이 브랜치는 전략 패턴 1의 **4단계**다.
+이 브랜치는 전략 패턴 1의 **5단계**다.
 
-상위 클래스에 모든 행동을 두는 대신, 실제로 필요한 오리만 `Flyable`, `Quackable`을 구현하도록 바꾼다.
+비행과 울음처럼 오리 종류에 따라 달라지는 행동을 `Duck`의 상속 계층에서 분리하고 별도 행동 객체로 구성한다.
 
 ## 현재 확인할 내용
 
-- `Duck`에는 `fly()`, `quack()`이 없다.
-- MallardDuck과 RedheadDuck은 `Flyable`, `Quackable`을 모두 구현한다.
-- RubberDuck은 `Quackable`만 구현한다.
-- DecoyDuck은 두 인터페이스를 모두 구현하지 않는다.
-- 잘못된 행동 상속 문제는 사라졌다.
-- 대신 MallardDuck과 RedheadDuck에 같은 `fly()`, `quack()` 구현이 중복된다.
+- `FlyBehavior`가 비행 행동의 공통 인터페이스다.
+- `FlyWithWings`, `FlyNoWay`가 서로 다른 비행 행동을 구현한다.
+- `QuackBehavior`가 울음 행동의 공통 인터페이스다.
+- `Quack`, `Squeak`, `MuteQuack`이 서로 다른 울음 행동을 구현한다.
+- `Duck.performFly()`와 `Duck.performQuack()`은 실제 행동을 행동 객체에 위임한다.
+- MallardDuck과 RedheadDuck은 같은 행동 객체 구현을 재사용한다.
+- RubberDuck과 DecoyDuck은 날 수 없는 행동을 재사용한다.
 
 ## 실행
 
@@ -21,8 +22,8 @@
 
 윈도우에서는 `run.bat`를 실행한다.
 
-## 다음 질문
+## 전략 패턴 1의 도착점
 
-> 같은 비행 행동과 같은 울음 행동을 여러 오리 클래스가 반복해서 구현하지 않고 재사용하려면 어떻게 해야 할까?
+이 단계에서는 **변하는 행동을 분리하고 조합하는 것**까지 확인한다.
 
-다음 단계에서 변하는 행동 자체를 객체로 분리한다.
+실행 중 행동을 교체하는 `setFlyBehavior()`, `FlyRocketPowered`는 아직 등장하지 않는다. 그 내용은 전략 패턴 2에서 다룬다.
