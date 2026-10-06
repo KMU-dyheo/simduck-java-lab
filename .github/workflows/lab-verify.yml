@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'lab/**'
+      - 'mission/**'
       - 'checkpoint/**'
       - 'work/**'
   pull_request:
