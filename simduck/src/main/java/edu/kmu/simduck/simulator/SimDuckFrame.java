@@ -156,14 +156,8 @@ public final class SimDuckFrame extends JFrame {
     }
 
     private void performQuack() {
-        capture(model.duck()::performQuack);
-        if (model.duck().getQuackBehavior() instanceof MuteQuack) {
-            animation.quack("...");
-        } else if (model.duck().getQuackBehavior() instanceof Squeak) {
-            animation.quack("삑삑!");
-        } else {
-            animation.quack("꽥꽥!");
-        }
+        String output = capture(model.duck()::performQuack);
+        animation.quack(lastLineOrSilence(output));
     }
 
     private void performFly() {
@@ -175,7 +169,7 @@ public final class SimDuckFrame extends JFrame {
         animation.takeOff(model.duck().getFlyBehavior() instanceof FlyRocketPowered);
     }
 
-    private void capture(Runnable runnable) {
+    private String capture(Runnable runnable) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         PrintStream original = System.out;
         try (PrintStream replacement = new PrintStream(buffer, true, StandardCharsets.UTF_8)) {
@@ -188,6 +182,15 @@ public final class SimDuckFrame extends JFrame {
         if (!text.isBlank()) {
             log(text);
         }
+        return text;
+    }
+
+    private String lastLineOrSilence(String text) {
+        if (text == null || text.isBlank()) {
+            return "...";
+        }
+        String[] lines = text.strip().split("\\R");
+        return lines[lines.length - 1];
     }
 
     private void log(String text) {

@@ -76,7 +76,22 @@ model.performFly();
 - 물고기 잡기 실패 뒤 머리를 터는 과정
 - 로켓 비행
 
-전략 패턴의 핵심 코드는 `behavior`, `duck` 패키지에 두고, 화면 표현과 애니메이션은 `simulator` 패키지에 분리했다. 따라서 학생은 화면 구현을 이해하지 않아도 전략 패턴 코드를 수정할 수 있다.
+전략 패턴의 핵심 코드는 `behavior`, `duck` 패키지에 두고, 화면 표현과 애니메이션은 `simulator` 패키지에 분리했다.
+
+### 학생이 수정하는 영역
+
+```text
+duck/        ← Duck과 Duck 하위 클래스
+behavior/    ← FlyBehavior, QuackBehavior와 구현 클래스
+```
+
+`simulator/`와 `resources/assets/`는 제공 코드다. Swing, 이미지 로딩, 애니메이션을 이해하거나 수정할 필요가 없다.
+
+새로운 `Duck` 하위 클래스를 `duck` 패키지에 만들면 시뮬레이터가 자동으로 발견한다. 별도의 Swing 등록 코드는 필요하지 않다. 새로운 Duck의 외형은 추가하지 않으며, 기존 외형이 없는 Duck은 기본 Mallard 외형으로 표시된다.
+
+전략 패턴 2의 완성 단계에서는 `behavior` 패키지에 새로운 public 행동 구현을 추가하면 전략 선택 목록에도 자동으로 나타난다.
+
+자세한 사용 방법은 `SIMULATOR.md`를 참고한다.
 
 ## 실행 환경
 
