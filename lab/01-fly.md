@@ -26,6 +26,10 @@ git switch -c work/strategy-01-01-fly
 
 시뮬레이터 코드는 수정하지 않는다.
 
+## 시뮬레이터 확인
+
+Swing 코드는 수정하지 않는다. `Duck` 코드를 저장한 뒤 `./run.sh`를 다시 실행하면 현재 Duck 하위 클래스가 자동으로 화면에 연결된다. 자세한 내용은 `SIMULATOR.md`를 참고한다.
+
 ## 완료 조건
 
 - `Duck.fly()`가 존재한다.
