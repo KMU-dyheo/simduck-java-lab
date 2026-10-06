@@ -22,6 +22,10 @@ git switch -c work/strategy-01-02-rubber
 5. `DuckFactory`에서 RubberDuck을 선택할 수 있게 한다.
 6. 프로그램을 실행해 RubberDuck이 실제로 날아가는 잘못된 결과를 확인한다.
 
+## 수정 영역
+
+이번 단계에서는 `duck/` 코드만 수정한다. `simulator/`, `resources/assets/`는 수정하지 않는다. 오리 등록은 자동으로 이루어진다.
+
 ## 완료 조건
 
 - RubberDuck은 `Duck.fly()`를 그대로 상속한다.
