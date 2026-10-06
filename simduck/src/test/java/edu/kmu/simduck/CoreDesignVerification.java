@@ -1,36 +1,32 @@
 package edu.kmu.simduck;
 
-import edu.kmu.simduck.behavior.FlyNoWay;
-import edu.kmu.simduck.behavior.FlyRocketPowered;
-import edu.kmu.simduck.behavior.FlyWithWings;
-import edu.kmu.simduck.behavior.MuteQuack;
-import edu.kmu.simduck.behavior.Quack;
-import edu.kmu.simduck.behavior.Squeak;
-import edu.kmu.simduck.duck.DecoyDuck;
-import edu.kmu.simduck.duck.MallardDuck;
-import edu.kmu.simduck.duck.ModelDuck;
-import edu.kmu.simduck.duck.RubberDuck;
+import edu.kmu.simduck.duck.Duck;
 import edu.kmu.simduck.simulator.AssetManager;
+import edu.kmu.simduck.simulator.DuckFactory;
+import edu.kmu.simduck.simulator.LabStage;
+import edu.kmu.simduck.simulator.SimulatorBridge;
 import edu.kmu.simduck.simulator.TerrainType;
 
 /**
- * 교재의 기본 전략 연결과 실행 중 전략 교체를 간단히 검증한다.
+ * 각 실습 브랜치에서 핵심 코드와 시뮬레이터 연결이 깨지지 않았는지 확인한다.
  */
 public final class CoreDesignVerification {
     private CoreDesignVerification() {
     }
 
+    /**
+     * 현재 단계의 기본 객체 생성과 에셋 로딩을 검증한다.
+     *
+     * @param args 사용하지 않는 명령행 인자
+     */
     public static void main(String[] args) {
-        require(new MallardDuck().getFlyBehavior() instanceof FlyWithWings, "청둥오리 비행 전략");
-        require(new MallardDuck().getQuackBehavior() instanceof Quack, "청둥오리 울음 전략");
-        require(new RubberDuck().getFlyBehavior() instanceof FlyNoWay, "고무 오리 비행 전략");
-        require(new RubberDuck().getQuackBehavior() instanceof Squeak, "고무 오리 울음 전략");
-        require(new DecoyDuck().getQuackBehavior() instanceof MuteQuack, "유인용 오리 울음 전략");
+        String[] names = DuckFactory.names();
+        require(names.length > 0, "선택 가능한 오리");
+        Duck duck = DuckFactory.create(names[0]);
+        require(duck != null, "오리 생성");
+        require(!SimulatorBridge.display(duck).isBlank(), "모습 출력");
+        require(!SimulatorBridge.swim(duck).isBlank(), "수영 출력");
 
-        ModelDuck model = new ModelDuck();
-        require(model.getFlyBehavior() instanceof FlyNoWay, "모형 오리 초기 비행 전략");
-        model.setFlyBehavior(new FlyRocketPowered());
-        require(model.getFlyBehavior() instanceof FlyRocketPowered, "모형 오리 실행 중 전략 교체");
         AssetManager assets = new AssetManager();
         for (TerrainType terrain : TerrainType.values()) {
             require(assets.terrain(terrain) != null, "지형 에셋: " + terrain.displayName());
@@ -45,7 +41,7 @@ public final class CoreDesignVerification {
         for (String name : new String[]{"island", "rock", "log", "reeds", "ripple"}) {
             require(assets.environment(name) != null, "환경 에셋: " + name);
         }
-        System.out.println("핵심 설계와 에셋 검증을 통과했습니다.");
+        System.out.println(LabStage.title() + " 검증을 통과했습니다.");
     }
 
     private static void require(boolean condition, String message) {

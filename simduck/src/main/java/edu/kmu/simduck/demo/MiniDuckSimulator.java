@@ -1,30 +1,30 @@
 package edu.kmu.simduck.demo;
 
-import edu.kmu.simduck.behavior.FlyRocketPowered;
 import edu.kmu.simduck.duck.Duck;
 import edu.kmu.simduck.duck.MallardDuck;
-import edu.kmu.simduck.duck.ModelDuck;
+import edu.kmu.simduck.duck.RedheadDuck;
 
 /**
- * 교재의 핵심 전략 교체 흐름을 콘솔에서 확인한다.
+ * 전략 패턴을 적용하기 전의 기본 상속 구조를 콘솔에서 확인한다.
  */
 public final class MiniDuckSimulator {
     private MiniDuckSimulator() {
     }
 
     /**
-     * 청둥오리의 기본 행동과 모형 오리의 실행 중 전략 교체를 실행한다.
+     * 두 오리의 공통 행동과 서로 다른 모습을 실행한다.
      *
      * @param args 사용하지 않는 명령행 인자
      */
     public static void main(String[] args) {
         Duck mallard = new MallardDuck();
-        mallard.performQuack();
-        mallard.performFly();
+        mallard.display();
+        mallard.quack();
+        mallard.swim();
 
-        Duck model = new ModelDuck();
-        model.performFly();
-        model.setFlyBehavior(new FlyRocketPowered());
-        model.performFly();
+        Duck redhead = new RedheadDuck();
+        redhead.display();
+        redhead.quack();
+        redhead.swim();
     }
 }

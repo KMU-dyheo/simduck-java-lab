@@ -1,17 +1,14 @@
 package edu.kmu.simduck.simulator;
 
-import edu.kmu.simduck.duck.DecoyDuck;
 import edu.kmu.simduck.duck.Duck;
 import edu.kmu.simduck.duck.MallardDuck;
-import edu.kmu.simduck.duck.ModelDuck;
 import edu.kmu.simduck.duck.RedheadDuck;
-import edu.kmu.simduck.duck.RubberDuck;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 화면 선택값에 맞는 오리 객체와 시각 종류를 제공한다.
+ * 현재 실습 단계에서 선택할 수 있는 오리 객체와 화면용 모습을 제공한다.
  */
 public final class DuckFactory {
     private static final Map<String, String> SKINS = new LinkedHashMap<>();
@@ -19,9 +16,6 @@ public final class DuckFactory {
     static {
         SKINS.put("MallardDuck", "mallard");
         SKINS.put("RedheadDuck", "redhead");
-        SKINS.put("RubberDuck", "rubber");
-        SKINS.put("DecoyDuck", "decoy");
-        SKINS.put("ModelDuck", "model");
     }
 
     private DuckFactory() {
@@ -45,18 +39,15 @@ public final class DuckFactory {
     public static Duck create(String name) {
         return switch (name) {
             case "RedheadDuck" -> new RedheadDuck();
-            case "RubberDuck" -> new RubberDuck();
-            case "DecoyDuck" -> new DecoyDuck();
-            case "ModelDuck" -> new ModelDuck();
             default -> new MallardDuck();
         };
     }
 
     /**
-     * 오리 이름에 맞는 화면용 시각 종류를 반환한다.
+     * 오리 이름에 맞는 화면용 모습을 반환한다.
      *
      * @param name 오리 이름
-     * @return 시각 종류 이름
+     * @return 화면용 모습 이름
      */
     public static String skin(String name) {
         return SKINS.getOrDefault(name, "mallard");
